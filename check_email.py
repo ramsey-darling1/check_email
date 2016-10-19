@@ -11,12 +11,6 @@ def get_unread_msgs(user, passwd):
     p = urllib2.HTTPPasswordMgrWithDefaultRealm()
     p.add_password(None, FEED_URL, username, passwd)
     auth_handler = urllib2.HTTPBasicAuthHandler(p)
-    #auth_handler.add_password(
-    #   realm='New mail feed',
-    #   uri='https://mail.google.com',
-    #   user='{user}@gmail.com'.format(user=user),
-    #   passwd=passwd
-    #)
     opener = urllib2.build_opener(auth_handler)
     urllib2.install_opener(opener)
     feed = urllib2.urlopen(FEED_URL)
