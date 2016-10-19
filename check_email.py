@@ -3,6 +3,7 @@
 # taken from https://pythonadventures.wordpress.com/2012/09/08/check-gmail-for-new-messages/
 
 import urllib2
+import untangle
 
 FEED_URL = 'https://mail.google.com/mail/feed/atom'
 
@@ -23,4 +24,12 @@ if __name__ == "__main__":
 
     user = raw_input('Username: ')
     passwd = getpass.getpass('Password: ')
-    print get_unread_msgs(user, passwd)
+    # print get_unread_msgs(user, passwd)
+    xml = get_unread_msgs(user, passwd)
+    o = untangle.parse(xml)
+    try:
+        for e in o.feed.entry:
+            title = e.title.cdata
+            print title
+    except IndexError:
+        pass    # no new mail
