@@ -21,9 +21,13 @@ def get_unread_msgs(user, passwd):
 
 if __name__ == "__main__":
     import getpass
-
-    user = raw_input('Username: ')
-    passwd = getpass.getpass('Password: ')
+    creds = untangle.parse("creds.xml")
+    try:
+        user = creds.creds.username.cdata
+        passwd = creds.creds.password.cdata
+    except ValueError:
+        user = raw_input('Username: ')
+        passwd = getpass.getpass('Password: ')
     # print get_unread_msgs(user, passwd)
     xml = get_unread_msgs(user, passwd)
     o = untangle.parse(xml)
