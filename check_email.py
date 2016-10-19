@@ -30,6 +30,11 @@ if __name__ == "__main__":
     try:
         for e in o.feed.entry:
             title = e.title.cdata
+            summary = e.summary.cdata
+            print '****start****'
             print title
+            print summary
+            print '****end******'
     except IndexError:
-        pass    # no new mail
+        print 'No New Mail'
+        pass
