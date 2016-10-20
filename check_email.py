@@ -32,13 +32,19 @@ if __name__ == "__main__":
     xml = get_unread_msgs(user, passwd)
     o = untangle.parse(xml)
     try:
+        print '****start****'
+        print o.feed.title.cdata
         for e in o.feed.entry:
             title = e.title.cdata
             summary = e.summary.cdata
-            print '****start****'
+            print '***'
             print title
             print summary
-            print '****end******'
+            print 'from:'
+            print e.author.name.cdata
+            print e.author.email.cdata
+            print '***'
+        print '****end******'
     except IndexError:
         print 'No New Mail'
         pass
