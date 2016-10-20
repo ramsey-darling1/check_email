@@ -17,7 +17,26 @@ def get_unread_msgs(user, passwd):
     feed = urllib2.urlopen(FEED_URL)
     return feed.read()
 
-##########
+def print_emails(user, passwd):
+    xml = get_unread_msgs(user, passwd)
+    o = untangle.parse(xml)
+    try:
+        print '****start****'
+        print o.feed.title.cdata
+        for e in o.feed.entry:
+            title = e.title.cdata
+            summary = e.summary.cdata
+            print '***'
+            print title
+            print summary
+            print 'from:'
+            print e.author.name.cdata
+            print e.author.email.cdata
+            print '***'
+        print '****end******'
+    except IndexError:
+        print 'No New Mail'
+        pass
 
 if __name__ == "__main__":
     import getpass
@@ -26,44 +45,8 @@ if __name__ == "__main__":
         for a in creds.creds.account:
             user = a.username.cdata
             passwd = a.password.cdata
-            xml = get_unread_msgs(user, passwd)
-            o = untangle.parse(xml)
-            try:
-                print '****start****'
-                print o.feed.title.cdata
-                for e in o.feed.entry:
-                    title = e.title.cdata
-                    summary = e.summary.cdata
-                    print '***'
-                    print title
-                    print summary
-                    print 'from:'
-                    print e.author.name.cdata
-                    print e.author.email.cdata
-                    print '***'
-                print '****end******'
-            except IndexError:
-                print 'No New Mail'
-                pass
+            print_emails(user, passwd)
     except ValueError:
         user = raw_input('Username: ')
         passwd = getpass.getpass('Password: ')
-        xml = get_unread_msgs(user, passwd)
-        o = untangle.parse(xml)
-        try:
-            print '****start****'
-            print o.feed.title.cdata
-            for e in o.feed.entry:
-                title = e.title.cdata
-                summary = e.summary.cdata
-                print '***'
-                print title
-                print summary
-                print 'from:'
-                print e.author.name.cdata
-                print e.author.email.cdata
-                print '***'
-            print '****end******'
-        except IndexError:
-            print 'No New Mail'
-            pass
+        print_emails(user, passwd)
