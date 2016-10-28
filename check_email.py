@@ -4,6 +4,8 @@
 
 import urllib2
 import untangle
+import os.path
+import getpass
 
 FEED_URL = 'https://mail.google.com/mail/feed/atom'
 
@@ -38,15 +40,20 @@ def print_emails(user, passwd):
         print 'No New Mail'
         pass
 
-if __name__ == "__main__":
-    import getpass
-    creds = untangle.parse("creds.xml")
-    try:
-        for a in creds.creds.account:
-            user = a.username.cdata
-            passwd = a.password.cdata
-            print_emails(user, passwd)
-    except ValueError:
+def main():
+    if(os.path.isfile("creds.xml") ):
+        creds = untangle.parse("creds.xml")
+        try:
+            for a in creds.creds.account:
+                user = a.username.cdata
+                passwd = a.password.cdata
+                print_emails(user, passwd)
+        except ValueError:
+            print "Sorry, unable to parse that xml file"
+    else:
         user = raw_input('Username: ')
         passwd = getpass.getpass('Password: ')
         print_emails(user, passwd)
+
+if __name__ == "__main__":
+    main()
