@@ -1,0 +1,10 @@
+<creds>
+    <account>
+        <username>GoogleUsername</username>
+        <password>GooglePassword</password>
+    </account>
+    <account>
+        <username>AnotherGoogleUsername</username>
+        <password>AnotherGooglePassword</password>
+    </account>
+</creds>
