@@ -25,6 +25,7 @@ def print_emails(user, passwd):
     try:
         print '****start****'
         print o.feed.title.cdata
+        c = 0
         for e in o.feed.entry:
             title = e.title.cdata
             summary = e.summary.cdata
@@ -35,6 +36,8 @@ def print_emails(user, passwd):
             print e.author.name.cdata
             print e.author.email.cdata
             print '***'
+            c += 1
+        print str(c) + " new emails"
         print '****end******'
     except IndexError:
         print 'No New Mail'
