@@ -7,7 +7,9 @@ import urllib2
 import untangle
 import os.path
 import getpass
-from gi.repository import Gtk # desktop alerts
+# desktop alerts
+import gi 
+from gi.repository import Gtk
 
 FEED_URL = 'https://mail.google.com/mail/feed/atom'
 
@@ -43,7 +45,7 @@ def main():
             for a in creds.creds.account:
                 user = a.username.cdata
                 passwd = a.password.cdata
-                print_emails(user, passwd)
+                alert_emails(user, passwd)
         except ValueError:
             # do nothing
             pass
