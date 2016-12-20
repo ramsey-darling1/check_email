@@ -7,9 +7,6 @@ import urllib2
 import untangle
 import os.path
 import getpass
-# desktop alerts
-import gi 
-from gi.repository import Gtk
 
 FEED_URL = 'https://mail.google.com/mail/feed/atom'
 
@@ -27,12 +24,12 @@ def alert_emails(user, passwd):
     xml = get_unread_msgs(user, passwd)
     o = untangle.parse(xml)
     try:
-        dialog = Gtk.MessageDialog(None, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, o.feed.title.cdata)
+        res = o.feed.title.cdata
         c = 0
         for e in o.feed.entry:
             c += 1
-        dialog.format_secondary_text(str(c) + " new emails")
-        dialog.run()
+        res += str(c) + " new emails"
+        print res # send to stdout so cronjob can display it as desktop notification
     except IndexError:
         # do nothing
         pass
