@@ -28,7 +28,7 @@ def alert_emails(user, passwd):
         c = 0
         for e in o.feed.entry:
             c += 1
-        res += str(c) + " new emails"
+        res += " " + str(c) + " new emails"
         print res # send to stdout so cronjob can display it as desktop notification
     except IndexError:
         # do nothing
