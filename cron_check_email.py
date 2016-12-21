@@ -23,29 +23,31 @@ def get_unread_msgs(user, passwd):
 def alert_emails(user, passwd):
     xml = get_unread_msgs(user, passwd)
     o = untangle.parse(xml)
+    res = ''
     try:
-        res = o.feed.title.cdata
         c = 0
         for e in o.feed.entry:
             c += 1
-        res += " " + str(c) + " new emails"
-        print res # send to stdout so cronjob can display it as desktop notification
+        res = str(c) + " new emails "
     except IndexError:
         # do nothing
         pass
+    return res
 
 def main():
     # nothing happens if the creds.xml file is not in place
+    res = ''
     if(os.path.isfile("creds.xml") ):
         creds = untangle.parse("creds.xml")
         try:
             for a in creds.creds.account:
                 user = a.username.cdata
                 passwd = a.password.cdata
-                alert_emails(user, passwd)
+                res += alert_emails(user, passwd)
         except ValueError:
             # do nothing
             pass
+    print res
 
 if __name__ == "__main__":
     main()
